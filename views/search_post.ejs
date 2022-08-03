@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+  /*
+body {
+  font-family: Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+*/
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+ <head>
+   <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+ 
+   <title>My blog</title>
+ </head>
+ <body>
+  
+   <div class="container">
+    <%- include("partials/navbar.ejs")%>
+
+
+    <form class="example" action="/search_post">
+      <input type="text" placeholder="Search for Title.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+
+     <div class="jumbotron jumbotron-fluid">
+
+        <h2 style="text-align:left">Posts </h2>
+
+        <% if (typeof currentUser !== "undefined") {%>
+          <h5>Yor name is <%- currentUser.name %></h5> 
+        <% ;} %>
+
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Namber</th>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <%
+            function compareT(a, b)
+            {
+            if (a.title < b.title)
+              return -1;
+            if (a.title > b.title)
+            return 1;
+            }
+            %>
+            
+          <% 
+          let postCopy = [];
+              
+          posts.forEach(function(post) {
+            postCopy.push ({ id: post["id"], title: post["title"], author: post["author"] }) ;
+          })
+
+          postCopy.sort( compareT );
+          postCopy.forEach(function(post) {
+            %>
+            <tr>
+              <td><%- post["id"] %></td>
+              <td><%- post["title"] %></td>
+              <td><%- post["author"] %></td>
+              <td>
+                <a href="/posts/<%- post['id'] %>/show" class="btn btn-primary btn-sm">Show</a>
+                <% if ((typeof currentUser == "undefined")|| (currentUser.name !== post["author"])) {%>
+                 <!-- <a href="/posts/<%- post['id'] %>/edit" class="btn btn-success btn-sm disabled"  >Edit</a>
+                  <a href="/posts/<%- post['id'] %>/delete" class="btn btn-danger btn-sm disabled"  >Delete</a> -->
+                <% ;} else {%>
+                <a href="/posts/<%- post['id'] %>/edit" class="btn btn-success btn-sm "  >Edit</a>
+                <a href="/posts/<%- post['id'] %>/delete" class="btn btn-danger btn-sm "  >Delete</a>
+                <% ;}%>
+              </td>
+            </tr>
+
+          <% 
+          })
+          %>
+          </tbody>
+        </table>
+        <!--
+        <a href="/new_post" class="btn btn-success btn-sm">Create New Post</a>
+
+        <a href="/posts/author" class="btn btn-secondary btn-sm">Sort by author</a>
+        <a href="/posts/title" class="btn btn-secondary btn-sm">Sort by title</a>
+        <a href="/posts/id" class="btn btn-secondary btn-sm">Sort by data</a>
+
+        <p>Total count: <%- posts.length %></p>
+  -->
+   
+     </div>
+   </div>
+
+   <!-- JavaScript -->
+   <script src="/jquery/jquery.min.js"></script>
+   <script src="/bootstrap/js/bootstrap.min.js"></script>
+ </body>
+</html>

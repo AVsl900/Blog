@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+ <head>
+   <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+ 
+   <title>My blog</title>
+ </head>
+ <body>
+
+   <div class="container">
+    <%- include("partials/navbar.ejs") %>
+     <div class="jumbotron">
+       <h1 class="display-4">My blog</h1>
+       <p class="lead">Use: Node Js, Bootstrap, Sqlite 3 </p>
+       <hr class="my-4">
+       <% if (typeof currentUser == "undefined") {%> 
+        <p>To add a new post, please log in.</p>
+        <a class="btn btn-primary btn-lg" href="/login" role="button">Login</a>
+      <% ;} else { %>
+      <h5>Yor name is <%- currentUser.name %></h5> 
+      <a class="btn btn-primary btn-lg" href="/logout" role="button">Logout</a>
+      <% ;} %>
+       
+     </div>
+   </div>
+ 
+   
+
+   <!-- JavaScript -->
+   <script src="/jquery/jquery.min.js"></script>
+   <script src="/bootstrap/js/bootstrap.min.js"></script>
+ </body>
+</html>
